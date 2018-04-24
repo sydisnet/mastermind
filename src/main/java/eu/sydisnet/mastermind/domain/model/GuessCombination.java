@@ -76,6 +76,12 @@ public class GuessCombination extends PinCombination
         this.misplacedPinCount = misplacedPinCount;
     }
 
+    @Override
+    public boolean equals(final Object pinCombination)
+    {
+        return super.equals(pinCombination);
+    }
+
     /**
      * Helper-Method that generates a supported user-input.
      *

@@ -29,7 +29,7 @@ package eu.sydisnet.mastermind.domain.model;
 public enum Pin
 {
     /**
-     * Supported pins are following.
+     * Supported pins.
      */
     RED('R', "Rouge"), YELLOW('J', "Jaune"), BLUE('B', "Bleu"), ORANGE('O', "Orange"), GREEN('V', "Vert"), BLACK('N', "Noir");
 
