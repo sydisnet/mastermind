@@ -1,6 +1,7 @@
 package eu.sydisnet.mastermind.domain.model;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -79,7 +80,23 @@ public class GuessCombination extends PinCombination
     @Override
     public boolean equals(final Object pinCombination)
     {
-        return super.equals(pinCombination);
+        boolean goodAnswer = super.equals(pinCombination);
+
+        if (goodAnswer)
+        {
+            this.setFairPinCount(4);
+            this.setMisplacedPinCount(0);
+        }
+        else if (pinCombination instanceof PinCombination)
+        {
+            // This guess combination is "comparable" with provided pin combination
+            PinCombination comparable = PinCombination.class.cast(pinCombination);
+            this.updateExactlyFairClue(comparable);
+            // TODO: Updates MisplacedFairPin !
+        }
+
+        // Returns true if he answer is guessed, false otherwise
+        return goodAnswer;
     }
 
     /**
@@ -107,4 +124,31 @@ public class GuessCombination extends PinCombination
 
         return riddle.toString();
     }
+
+    /**
+     * Business-Method that updates {@link this#fairPinCount}.
+     *
+     * @param pinCombination the combination provided by user
+     */
+    private void updateExactlyFairClue(final PinCombination pinCombination)
+    {
+        List<Pin> userPins = pinCombination.getPins();
+        List<Pin> riddlePins = this.getPins();
+
+        assert userPins.size() == riddlePins.size() : "Combinations must have the same size !";
+
+        int exactlyPlaced = 0;
+        for (int i = 0 ; i < riddlePins.size() ; i++)
+        {
+            Pin currentRiddlePin = riddlePins.get(i);
+
+            // Exactly Placed
+            if (currentRiddlePin.equals(userPins.get(i)))
+            {
+                exactlyPlaced++;
+            }
+        }
+        this.setFairPinCount(exactlyPlaced);
+    }
+
 }
