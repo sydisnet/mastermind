@@ -151,9 +151,9 @@ public class PinCombinationUnitTest
     }
 
     @Test
-    public void should_allow_length_exacty_4_constructor_userInput()
+    public void should_allow_length_exactly_4_constructor_userInput()
     {
-        LOG.info("*************** should_allow_length_exacty_4_constructor_userInput() ***************");
+        LOG.info("*************** should_allow_length_exactly_4_constructor_userInput() ***************");
 
         try
         {
