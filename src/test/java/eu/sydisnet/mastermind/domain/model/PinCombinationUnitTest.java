@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @version 1.0.0.0-SNAPSHOT
  * @since 1.0.0.0-SNAPSHOT
  */
-public class PinCombinationUnitTestCase
+public class PinCombinationUnitTest
 {
     private static final Logger LOG = Logger.getLogger(MethodHandles.lookup().getClass().getName());
 
