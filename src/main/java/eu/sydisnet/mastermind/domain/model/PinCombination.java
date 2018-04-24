@@ -4,7 +4,9 @@ import eu.sydisnet.mastermind.domain.exception.UserInputException;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,11 @@ public class PinCombination
      * The 4 pins list.
      */
     private List<Pin> pins;
+
+    /**
+     * For each supported pin, we have to count the number of times it is used in this combination.
+     */
+    protected Map<Pin, Long> occurencePinMap;
 
     /**
      * Builds a pin combination from a {@link String} input.
@@ -61,6 +68,9 @@ public class PinCombination
                 throw new UserInputException(UserInputException.ErrorCause.COLOR_NOT_SUPPORTED, ex);
             }
         }
+
+        // Counts occurrences for each pin
+        this.countOccurrencesForEachPin();
     }
 
     /**
@@ -117,5 +127,19 @@ public class PinCombination
         // }</pre>
         return Objects.hash(this.getPins());
     }
-}
 
+    /**
+     * Business-Method that count the number of occurrences for each pin for this combination.
+     */
+    private void countOccurrencesForEachPin()
+    {
+        // Inits occurrence pin map
+        this.occurencePinMap = new HashMap<>();
+
+        for (Pin currentPin : Pin.values())
+        {
+            // Sets count in map
+            this.occurencePinMap.put(currentPin, this.pins.stream().filter(pin -> pin ==  currentPin).count());
+        }
+    }
+}
