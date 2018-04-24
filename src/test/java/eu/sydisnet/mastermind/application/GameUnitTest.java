@@ -86,12 +86,13 @@ public class GameUnitTest
         LOG.info("*************** should_be_PLAYING_when_offering_with_fail_combination() ***************");
 
         // Given game with hacked guess combination
-        Game game = new DefaultGame(5)
+        Game game = new DefaultGame()
         {
             @Override
             protected void setGuess(final GuessCombination guess)
             {
-                new GuessCombination("ROOJ");
+                // We ignore auto-generated combination
+                super.setGuess(new GuessCombination("ROOJ"));
             }
         };
 
@@ -109,12 +110,13 @@ public class GameUnitTest
         LOG.info("*************** should_be_PLAYING_when_offering_with_fail_combination() ***************");
 
         // Given game with hacked guess combination
-        Game game = new DefaultGame(5)
+        Game game = new DefaultGame()
         {
             @Override
             protected void setGuess(final GuessCombination guess)
             {
-                new GuessCombination("ROOJ");
+                // We ignore auto-generated combination
+                super.setGuess(new GuessCombination("ROOJ"));
             }
         };
 
@@ -124,6 +126,32 @@ public class GameUnitTest
 
         // Expects 10 attempts
         this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.WON);
+    }
+
+    @Test
+    public void should_be_LOST_when_offering_with_last_incorrect_combination()
+    {
+        LOG.info("*************** should_be_PLAYING_when_offering_with_fail_combination() ***************");
+
+        // Given game with hacked guess combination
+        Game game = new DefaultGame(2)
+        {
+            @Override
+            protected void setGuess(final GuessCombination guess)
+            {
+                // We ignore auto-generated combination
+                super.setGuess(new GuessCombination("ROOJ"));
+            }
+        };
+
+        // When the player offers
+        game.offer(new PinCombination("NBJV"));
+        // Then offers
+        game.offer(new PinCombination("JJOR"));
+
+
+        // Expects 10 attempts
+        this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.LOST);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -137,7 +165,8 @@ public class GameUnitTest
                 @Override
                 protected void setGuess(final GuessCombination guess)
                 {
-                    new GuessCombination("ROOJ");
+                    // We ignore auto-generated combination
+                    super.setGuess(new GuessCombination("ROOJ"));
                 }
             };
 
@@ -161,7 +190,7 @@ public class GameUnitTest
         // Expected IllegalStateException
         try
         {
-            game.offer(new PinCombination("VBNN"));
+            game.offer(new PinCombination("NNBV"));
         }
         catch (Exception ex)
         {

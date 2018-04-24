@@ -119,7 +119,17 @@ public class DefaultGame implements Game
     @Override
     public void offer(final PinCombination combination)
     {
+        // Is it first proposal ?
+        if (Status.NEW_GAME == this.gameStatus)
+        {
+            this.setGameStatus(Status.PLAYING);
+        }
 
+        // We can now check if the user has won
+        if (this.guess.equals(combination))
+        {
+            this.setGameStatus(Status.WON);
+        }
     }
 
     /**
