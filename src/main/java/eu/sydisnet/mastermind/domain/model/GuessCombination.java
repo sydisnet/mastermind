@@ -29,6 +29,16 @@ public class GuessCombination extends PinCombination
             .collect(Collectors.joining());
 
     /**
+     * Corresponds to the count of fair pins, i.e. pins that have the correct color and are correctly placed.
+     */
+    private int fairPinCount;
+
+    /**
+     * Corresponds to the count of fair (correct color) but misplaced pins.
+     */
+    private int misplacedPinCount;
+
+    /**
      * Builds an instance with an auto-generated answer to guess.
      */
     public GuessCombination()
@@ -41,9 +51,29 @@ public class GuessCombination extends PinCombination
      *
      * @param answer the correct {@link PinCombination} to guess.
      */
-    private GuessCombination(final String answer)
+    GuessCombination(final String answer)
     {
         super(answer);
+    }
+
+    public int getFairPinCount()
+    {
+        return this.fairPinCount;
+    }
+
+    private void setFairPinCount(final int fairPinCount)
+    {
+        this.fairPinCount = fairPinCount;
+    }
+
+    public int getMisplacedPinCount()
+    {
+        return misplacedPinCount;
+    }
+
+    private void setMisplacedPinCount(final int misplacedPinCount)
+    {
+        this.misplacedPinCount = misplacedPinCount;
     }
 
     /**
