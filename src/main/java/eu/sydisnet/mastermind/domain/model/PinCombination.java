@@ -5,6 +5,7 @@ import eu.sydisnet.mastermind.domain.exception.UserInputException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -83,6 +84,38 @@ public class PinCombination
                     .collect(Collectors.joining(", "))
                 + '}'
             + '}';
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof PinCombination))
+        {
+            return false;
+        }
+        PinCombination that = PinCombination.class.cast(o);
+
+        // Compares the specified object with this list for equality.  Returns <tt>true</tt> if and only if the
+        // specified object is also a list, both lists have the same size, and all corresponding pairs of elements in
+        // the two lists are <i>equal</i>.
+        return Objects.equals(this.getPins(), that.getPins());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        // Returns the hash code value for this list.  The hash code of a list is defined to be the result of the
+        // following calculation:
+        // <pre>{@code
+        //     int hashCode = 1;
+        //     for (E e : list)
+        //         hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
+        // }</pre>
+        return Objects.hash(this.getPins());
     }
 }
 

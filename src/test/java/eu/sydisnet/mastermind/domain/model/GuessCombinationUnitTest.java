@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Unit Testing class that validates constraints on {@link GuessCombination} concept.
@@ -53,5 +54,26 @@ public class GuessCombinationUnitTest
             // Does Not Expect
             this.softly.fail("Should have successfully generate a guess combination !", ex);
         }
+    }
+
+    @Test
+    public void should_be_able_to_compare_pinCombination_with_guessCombination()
+    {
+        LOG.info("*************** should_be_able_to_compare_pinCombination_with_guessCombination() ***************");
+
+        // Given a guess combination, i.e. with a auto-generated riddle
+        PinCombination guessCombination = new GuessCombination();
+        // Retrieving riddle
+        String riddle = guessCombination.getPins()
+            .stream()
+                .map(c -> Character.toString(c.getFrenchColorShortcut()))
+                .collect(Collectors.joining());
+        LOG.log(Level.INFO, "Riddle: {0}", riddle);
+
+        // When
+        PinCombination correctCombination = new PinCombination(riddle);
+
+        // Expects
+        this.softly.assertThat(correctCombination).isEqualTo(guessCombination);
     }
 }
