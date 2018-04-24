@@ -43,5 +43,8 @@ Launch the following jar :
     $ java -jar target/jfx/app/mastermind-jfx.jar
 
 
+It is possible to run directly from **Maven** :
+
+    $ mvn clean deploy '-P!console-mode,fx-mode'
 
 
