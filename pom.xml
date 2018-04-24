@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--  Object Model Version -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project METADATA -->
+    <groupId>eu.sydisnet</groupId>
+    <artifactId>mastermind</artifactId>
+    <version>1.0.0.0-SNAPSHOT</version>
+
+    <!-- Propriétés communes -->
+    <properties>
+        <!-- Version des plugins Maven utilisés -->
+        <!-- Plugins Communs -->
+        <!-- Wrapper sur le compilateur Javac -->
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+        <!-- Plugins de packaging de l'application -->
+        <maven.jar.plugin.version>3.1.0</maven.jar.plugin.version>
+        <!-- Plugins Tiers -->
+        <javafx.maven.plugin.version>8.8.3</javafx.maven.plugin.version>
+
+        <!-- Options -->
+        <!-- Encoding -->
+        <!-- Forçage de l'encodage du projet afin d'éliminer l'avetsissement suivant : -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Encodage des rapports des essais d'intégration -->
+        <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+        <!-- Force la source et la destination de la version du JDK -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Options du compilateur -->
+        <maven.compiler.fork>true</maven.compiler.fork>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+        <maven.compiler.verbose>false</maven.compiler.verbose>
+        <!-- Skipping default deployment -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+
+        <!-- Versions des librairies du projet -->
+        <!-- Testing -->
+        <junit.version>4.12</junit.version>
+        <assertj.version>3.9.1</assertj.version>
+    </properties>
+
+    <!-- Dependencies Management -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- ################################################################################## -->
+            <!-- ################################################################################## -->
+            <!-- ############################### Testing Stack #################################### -->
+            <!-- ################################################################################## -->
+            <!-- ################################################################################## -->
+            <!-- Testing Frameworks -->
+            <!-- JUnit -->
+            <!-- JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java. -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+
+            <!-- Assertion Libraries -->
+            <!-- AssertJ Fluent Assertions -->
+            <!-- Rich and fluent assertions for testing for Java -->
+            <!-- Alternative to Hamcrest matchers. Provides fluent, type-aware API -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <!-- ################################################################################## -->
+        <!-- ################################################################################## -->
+        <!-- ############################### Testing Stack #################################### -->
+        <!-- ################################################################################## -->
+        <!-- ################################################################################## -->
+        <!-- Testing Frameworks -->
+        <!-- JUnit -->
+        <!-- JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java. -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Assertion Libraries -->
+        <!-- AssertJ Fluent Assertions -->
+        <!-- Rich and fluent assertions for testing for Java -->
+        <!-- Alternative to Hamcrest matchers. Provides fluent, type-aware API -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+
+
+
+    <!-- ################################################################################## -->
+    <!-- ################################################################################## -->
+    <!-- ############################## Build Settings #################################### -->
+    <!-- ################################################################################## -->
+    <!-- ################################################################################## -->
+    <!-- Build Config -->
+    <build>
+        <!-- Default Goal -->
+        <defaultGoal>verify</defaultGoal>
+
+        <!-- Nom de l'archive de déploiement, utilisée comme racine du contexte quand l'application est lancée -->
+        <finalName>${project.artifactId}</finalName>
+
+        <!-- Répertoires utilisés pour les ressources -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- Remplace les variables ${nom_variable} dans les ressources du code de production -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <!-- Répertoires Ressources visibles pour les tests -->
+        <testResources>
+            <testResource>
+                <directory>src/main/resources</directory>
+                <!-- Remplace les variables ${nom_variable} dans les ressources de test -->
+                <filtering>true</filtering>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <!-- Remplace les variables ${nom_variable} dans les ressources de test -->
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <!-- Plugin configuration -->
+        <pluginManagement>
+            <plugins>
+                <!-- Maven Plugins -->
+                <!-- Apache Maven Compiler Plugin -->
+                <!-- The Compiler Plugin is used to compile the sources of your project.  -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <!-- Désactiver les fonctions de compilation Jigsaw (lib/ct.sym) et utilisation de rt.jar à la place -->
+                        <compilerArgument>-XDignore.symbol.file</compilerArgument>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+
+
+
+    <!-- ################################################################################## -->
+    <!-- ################################################################################## -->
+    <!-- ############################## Project Information ############################### -->
+    <!-- ################################################################################## -->
+    <!-- ################################################################################## -->
+    <!-- PROJECT INFORMATION -->
+    <name>Mastermind FX</name>
+    <description>Basic implementation of this popular game with a JavaFX UI</description>
+    <url>http://sydisnet.eu/</url>
+    <inceptionYear>2018</inceptionYear>
+
+    <!-- License -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>This product is distributed as a business-friendly OSS license.</comments>
+        </license>
+    </licenses>
+
+    <!-- Organization -->
+    <organization>
+        <name>SYDISNET</name>
+        <url>http://sydisnet.eu/</url>
+    </organization>
+
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <id>sebastien</id>
+            <name>Sébastien Hébert</name>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <profiles>
+        <!-- Lauches app in console mode -->
+        <profile>
+            <id>console-mode</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <!-- Configure packaging in Console mode -->
+            <build>
+                <defaultGoal>install</defaultGoal>
+
+                <pluginManagement>
+                    <plugins>
+                        <!-- Maven Plugins -->
+                        <!-- Apache Maven JAR Plugin -->
+                        <!-- Builds a Java Archive (JAR) file from the compiled project classes and resources. -->
+                        <plugin>
+                            <artifactId>maven-jar-plugin</artifactId>
+                            <version>${maven.jar.plugin.version}</version>
+                            <configuration>
+                                <archive>
+                                    <manifest>
+                                        <addClasspath>true</addClasspath>
+                                        <mainClass>eu.sydisnet.mastermind.presentation.ConsoleLauncher</mainClass>
+                                    </manifest>
+                                </archive>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!-- Lauches app in Fx mode -->
+        <profile>
+            <id>fx-mode</id>
+
+            <!-- Configure packaging in Fx mode -->
+            <build>
+                <defaultGoal>deploy</defaultGoal>
+
+                <pluginManagement>
+                    <plugins>
+                        <!-- Maven Plugins -->
+                        <!-- JavaFX Maven Plugin -->
+                        <!-- The JavaFX Maven Plugin provides a way to to assemble distributable bundles for JavaFX applications from within Maven. It provides a wrapper around the JavaFX packaging tools which are provided as part of the JavaFX installation. -->
+                        <plugin>
+                            <groupId>com.zenjava</groupId>
+                            <artifactId>javafx-maven-plugin</artifactId>
+                            <version>${javafx.maven.plugin.version}</version>
+                            <configuration>
+                                <mainClass>eu.sydisnet.mastermind.presentation.FxLauncher</mainClass>
+                                <allPermissions>true</allPermissions>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <!-- Activation de plugins complémentaires -->
+                <plugins>
+                    <!-- Maven Plugins -->
+                    <!-- JavaFX Maven Plugin -->
+                    <!-- The JavaFX Maven Plugin provides a way to to assemble distributable bundles for JavaFX applications from within Maven. It provides a wrapper around the JavaFX packaging tools which are provided as part of the JavaFX installation. -->
+                    <plugin>
+                        <groupId>com.zenjava</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-jfx-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build-jar</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>run-jfx-jar</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
