@@ -4,6 +4,9 @@ import eu.sydisnet.mastermind.application.Game;
 import eu.sydisnet.mastermind.domain.model.GuessCombination;
 import eu.sydisnet.mastermind.domain.model.PinCombination;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Defines a default {@link DefaultGame} implementation, i.e. an auto-generated guess combination and a stack (represented by a {@link java.util.Deque}
  * because {@link java.util.Stack} is deprecated.
@@ -52,6 +55,11 @@ public class DefaultGame implements Game
     private Status gameStatus;
 
     /**
+     * Proposals offered by player.
+     */
+    private Deque<PinCombination> proposals;
+
+    /**
      * Starts a game with a default maximum of 10 retries.
      */
     public DefaultGame()
@@ -74,6 +82,9 @@ public class DefaultGame implements Game
 
         // Game is now ready
         this.setGameStatus(Status.NEW_GAME);
+
+        // Inits the proposals
+        this.proposals = new ArrayDeque<>(maxAttempts);
     }
 
     /**
@@ -119,16 +130,36 @@ public class DefaultGame implements Game
     @Override
     public void offer(final PinCombination combination)
     {
+        // Checks user input
+        if (combination == null)
+        {
+            throw new IllegalArgumentException("Proposal must be provided !");
+        }
+
+        // Check if we are allowed to play anymore
+        if (this.getGameStatus() == Status.LOST)
+        {
+            throw new IllegalStateException("Game is over ! You cannot play anymore !");
+        }
+
         // Is it first proposal ?
         if (Status.NEW_GAME == this.gameStatus)
         {
             this.setGameStatus(Status.PLAYING);
         }
 
-        // We can now check if the user has won
-        if (this.guess.equals(combination))
+        // Testing
+        if (this.proposals.offer(combination))
         {
-            this.setGameStatus(Status.WON);
+            // We can now check if the user has won
+            if (this.guess.equals(combination))
+            {
+                this.setGameStatus(Status.WON);
+            }
+            else if (this.proposals.size() == this.maxAttempts)
+            {
+                this.setGameStatus(Status.LOST);
+            }
         }
     }
 

@@ -43,7 +43,7 @@ public class GameUnitTest
     {
         LOG.info("*************** should_allow_x_maxAttempts_constructor_x() ***************");
 
-        // Given default game
+        // Given custom game with 5 retries
         Game game = new DefaultGame(5);
 
         // Expects x attempts
@@ -55,7 +55,7 @@ public class GameUnitTest
     {
         LOG.info("*************** should_have_x_maxAttempts_constructor_x() ***************");
 
-        // Given default ame
+        // Given custom game with negative retries
         new DefaultGame(-1);
     }
 
@@ -64,8 +64,20 @@ public class GameUnitTest
     {
         LOG.info("*************** should_not_allow_zero_constructor_maxAttempts() ***************");
 
-        // Given default ame
+        // Given custom game with zero retry
         new DefaultGame(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void should_not_allow_null_offer_combination()
+    {
+        LOG.info("*************** should_not_allow_null_offer_combination() ***************");
+
+        // Given default game
+        Game game = new DefaultGame();
+
+        // When
+        game.offer(null);
     }
 
     @Test
@@ -73,10 +85,10 @@ public class GameUnitTest
     {
         LOG.info("*************** should_be_NEW_GAME_at_the_beginning() ***************");
 
-        // Given default ame
+        // Given default game
         Game game = new DefaultGame();
 
-        // Expects 10 attempts
+        // Expects
         this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.NEW_GAME);
     }
 
@@ -100,7 +112,7 @@ public class GameUnitTest
         game.offer(new PinCombination("NBJV"));
 
 
-        // Expects 10 attempts
+        // Expects
         this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.PLAYING);
     }
 
@@ -124,7 +136,7 @@ public class GameUnitTest
         game.offer(new PinCombination("ROOJ"));
 
 
-        // Expects 10 attempts
+        // Expects
         this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.WON);
     }
 
@@ -133,7 +145,7 @@ public class GameUnitTest
     {
         LOG.info("*************** should_be_PLAYING_when_offering_with_fail_combination() ***************");
 
-        // Given game with hacked guess combination
+        // Given game with hacked guess combination and two retries
         Game game = new DefaultGame(2)
         {
             @Override
@@ -150,53 +162,29 @@ public class GameUnitTest
         game.offer(new PinCombination("JJOR"));
 
 
-        // Expects 10 attempts
+        // Expects
         this.softly.assertThat(game.getGameStatus()).isEqualTo(Game.Status.LOST);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void should_not_allow_more_than_x_attempts_offer()
+    public void should_not_allow_offer_when_game_is_LOST_yet()
     {
-        LOG.info("*************** should_not_allow_more_than_x_attempts_offer() ***************");
+        LOG.info("*************** should_not_allow_offer_when_game_is_LOST_yet() ***************");
 
-        // Given game with hacked guess combination
-        Game game = new DefaultGame(5)
-            {
-                @Override
-                protected void setGuess(final GuessCombination guess)
-                {
-                    // We ignore auto-generated combination
-                    super.setGuess(new GuessCombination("ROOJ"));
-                }
-            };
-
-        // When the player offers 5 times
-        try
+        // Given game with hacked guess combination and two retries
+        Game game = new DefaultGame(1)
         {
-            for (int i = 0; i < 5; i++)
+            @Override
+            protected void setGuess(final GuessCombination guess)
             {
-                game.offer(new PinCombination("VBNN"));
+                // We ignore auto-generated combination
+                super.setGuess(new GuessCombination("ROOJ"));
             }
-        }
-        catch (Exception ex)
-        {
-            LOG.info("Message: " + ex.getMessage());
+        };
 
-            // Does Not Expect
-            this.softly.fail("Should accept 10 attempts !", ex);
-        }
-
-        // And then offer one more time
-        // Expected IllegalStateException
-        try
-        {
-            game.offer(new PinCombination("NNBV"));
-        }
-        catch (Exception ex)
-        {
-            LOG.info("Message: " + ex.getMessage());
-
-            throw ex;
-        }
+        // When the player offers
+        game.offer(new PinCombination("NBJV"));
+        // Then offers
+        game.offer(new PinCombination("JJOR"));
     }
 }
