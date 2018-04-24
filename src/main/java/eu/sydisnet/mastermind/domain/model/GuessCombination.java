@@ -54,7 +54,7 @@ public class GuessCombination extends PinCombination
      *
      * @param answer the correct {@link PinCombination} to guess.
      */
-    GuessCombination(final String answer)
+    public GuessCombination(final String answer)
     {
         super(answer);
     }
