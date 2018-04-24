@@ -29,7 +29,7 @@ public class PinCombination
     /**
      * For each supported pin, we have to count the number of times it is used in this combination.
      */
-    protected Map<Pin, Long> occurencePinMap;
+    private Map<Pin, Long> occurencePinMap;
 
     /**
      * Builds a pin combination from a {@link String} input.
@@ -81,6 +81,16 @@ public class PinCombination
     public List<Pin> getPins()
     {
         return Collections.unmodifiableList(pins);
+    }
+
+    /**
+     * Getter on occurrencePinMap property.
+     *
+     * @return the map that contains the number of occurrences for each supported pin in this current combination instance.
+     */
+    protected Map<Pin, Long> getOccurencePinMap()
+    {
+        return Collections.unmodifiableMap(this.occurencePinMap);
     }
 
     @Override
