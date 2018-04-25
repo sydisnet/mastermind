@@ -88,7 +88,7 @@ public class PinCombination
      *
      * @return the map that contains the number of occurrences for each supported pin in this current combination instance.
      */
-    protected Map<Pin, Long> getOccurencePinMap()
+    Map<Pin, Long> getOccurencePinMap()
     {
         return Collections.unmodifiableMap(this.occurencePinMap);
     }

@@ -16,7 +16,13 @@ public interface Game
     /**
      * A game has four states : NEW_GAME -> PLAYING -> LOST|WON.
      */
-    enum Status { NEW_GAME, PLAYING, LOST, WON }
+    enum Status
+    {
+        /**
+         * Supported Status game.
+         */
+        NEW_GAME, PLAYING, LOST, WON
+    }
 
     /**
      * Returns the status of the game.

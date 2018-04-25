@@ -190,7 +190,7 @@ public class DefaultGame implements Game
     public int getLastMisplacedPinCount()
     {
         // Respect Law Demeter
-        Proposal last =this.proposals.peekLast();
+        Proposal last = this.proposals.peekLast();
         if (last == null)
         {
             return 0;

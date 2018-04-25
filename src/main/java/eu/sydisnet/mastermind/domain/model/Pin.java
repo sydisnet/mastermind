@@ -81,7 +81,7 @@ public enum Pin
          * @param frenchShortcut the given shortcut from which we want to build the corresponding {@link Pin} instance
          *
          */
-        public Builder(final char frenchShortcut)
+        Builder(final char frenchShortcut)
         {
             switch (frenchShortcut)
             {
@@ -115,11 +115,11 @@ public enum Pin
         }
 
         /**
-         * Finalizes construction.
+         * Ends construction.
          *
          * @return the corresponding color.
          */
-        public Pin build()
+        Pin build()
         {
             return this.pinUnderConstruction;
         }
