@@ -12,23 +12,26 @@ import java.util.Deque;
  * because {@link java.util.Stack} is deprecated.
  *
  * <p>
- *     The user interacts with an instance of this class, he can submit a proposal (a {@link PinCombination} instance)
+ *     The user interacts with an instance of this class, he can submit a {@link PinCombination} instance
  *     and the game instance checks that :
  *     <ul>
- *         <li>The proposal is correct, i.e. the proposal is equal to the guess combination: yes, we broke equality contract
+ *         <li>The combination is correct, i.e. the combination is equal to the guess combination: yes, we broke equality contract
  *             because we accept to test equality between a {@link GuessCombination} and a {@link PinCombination}
  *             assuming that a {@link GuessCombination} is a specialization of {@link PinCombination} just as Hibernate does,
 *          </li>
  *         <li>
- *             If proposal is not correct, the game instance checks if subsequent riddles are possible (10 attempts are possible).
+ *             If provided combination is not correct, the game instance checks if subsequent riddles are possible (10 attempts are possible).
  *         </li>
  *         <li>
- *             If proposal is correct, the user has won.
+ *             If provided combination is correct, the user has won.
  *         </li>
  *         <li>
- *             If no proposal was found after 10 attempts, the user has lost.
+ *             If no provided combination was found after 10 attempts, the user has lost.
  *         </li>
  *     </ul>
+ * </p>
+ * <p>
+ *     Each combination and its comparison results are stored in a stack (in fact, a {@link Deque} of {@link Game.Proposal} instances.
  * </p>
  *
  * @author sydisnet
@@ -57,7 +60,7 @@ public class DefaultGame implements Game
     /**
      * Proposals offered by player.
      */
-    private Deque<PinCombination> proposals;
+    private Deque<Proposal> proposals;
 
     /**
      * Starts a game with a default maximum of 10 retries.
@@ -133,7 +136,7 @@ public class DefaultGame implements Game
         // Checks user input
         if (combination == null)
         {
-            throw new IllegalArgumentException("Proposal must be provided !");
+            throw new IllegalArgumentException("Combination must be provided !");
         }
 
         // Check if we are allowed to play anymore
@@ -142,17 +145,19 @@ public class DefaultGame implements Game
             throw new IllegalStateException("Game is over ! You cannot play anymore !");
         }
 
-        // Is it first proposal ?
-        if (Status.NEW_GAME == this.gameStatus)
+        // Is it first offer call ?
+        if (this.proposals.size() == 0)
         {
             this.setGameStatus(Status.PLAYING);
         }
 
         // Testing
-        if (this.proposals.offer(combination))
+        boolean testingResult = this.guess.equals(combination);
+        Proposal proposal = new Proposal(combination, this.guess.getFairPinCount(), this.guess.getMisplacedPinCount());
+        if (this.proposals.offer(proposal))
         {
             // We can now check if the user has won
-            if (this.guess.equals(combination))
+            if (testingResult)
             {
                 this.setGameStatus(Status.WON);
             }
