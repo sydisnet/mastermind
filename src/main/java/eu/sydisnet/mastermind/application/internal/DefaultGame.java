@@ -233,4 +233,14 @@ public class DefaultGame implements Game
         }
         this.maxAttempts = maxAttempts;
     }
+
+    /**
+     * Returns the current proposals or an empty "stack" if no proposal has been submitted.
+     */
+    @Override
+    public Deque<Proposal> getProposals()
+    {
+        // Copy or proposals to protect actuel owned collection
+        return new ArrayDeque<>(this.proposals);
+    }
 }

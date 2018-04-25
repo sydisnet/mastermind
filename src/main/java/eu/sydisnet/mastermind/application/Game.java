@@ -2,6 +2,8 @@ package eu.sydisnet.mastermind.application;
 
 import eu.sydisnet.mastermind.domain.model.PinCombination;
 
+import java.util.Deque;
+
 /**
  * Defines the game concept.
  *
@@ -57,9 +59,14 @@ public interface Game
     int getMaxAttempts();
 
     /**
+     * Returns the current proposals or an empty "stack" if no proposal has been submitted.
+     */
+    Deque<Proposal> getProposals();
+
+    /**
      * Defines the value-object 'Proposal' that is a degenerated anemic structure, i.e. without business logic.
      *
-     * @author shebert
+     * @author sydisnet
      *         Project: mastermind
      *         Copyright (C) 2018 SYDISNET
      * @version 1.0.0.0-SNAPSHOT

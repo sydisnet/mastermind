@@ -1,5 +1,11 @@
 package eu.sydisnet.mastermind.presentation;
 
+import eu.sydisnet.mastermind.application.Game;
+import eu.sydisnet.mastermind.application.internal.DefaultGame;
+import eu.sydisnet.mastermind.domain.model.GuessCombination;
+import eu.sydisnet.mastermind.presentation.controller.GameBoardPresenter;
+import eu.sydisnet.mastermind.presentation.view.GameBoard;
+
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
@@ -27,5 +33,26 @@ public final class ConsoleLauncher
         Logger log = Logger.getLogger(MethodHandles.lookup().getClass().getName());
 
         log.info("Lancement de Mastermind en mode Console");
+
+        // Model
+//        Game model = new DefaultGame();
+        Game model = new DefaultGame()
+        {
+            @Override
+            protected void setGuess(final GuessCombination guess)
+            {
+                // We ignore guess combination
+                super.setGuess(new GuessCombination("ROOJ"));
+            }
+        };
+
+        // View
+        GameBoard view = new GameBoard();
+
+        // Controller
+        GameBoardPresenter controller = new GameBoardPresenter(model, view);
+
+        // Starts main process
+        controller.listenToUserInput();
     }
 }

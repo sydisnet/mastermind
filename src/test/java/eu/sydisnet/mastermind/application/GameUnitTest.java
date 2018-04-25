@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Unit Testing class that validates constraints on {@link Game.Proposal} concept.
  *
- * @author shebert
+ * @author sydisnet
  *         Project: mastermind
  *         Copyright (C) 2018 SYDISNET
  * @version 1.0.0.0-SNAPSHOT
