@@ -1,5 +1,7 @@
 package eu.sydisnet.mastermind.application;
 
+import eu.sydisnet.mastermind.application.internal.DefaultGame;
+import eu.sydisnet.mastermind.domain.model.GuessCombination;
 import eu.sydisnet.mastermind.domain.model.PinCombination;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Assume;
@@ -26,9 +28,17 @@ public class GameScenarioFunctionalTestCase
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
     /**
-     * Game under test.
+     * Game under test. This one is hacked with ROOJ combination.
      */
-    private Game game;
+    private Game game = new DefaultGame()
+    {
+        @Override
+        protected void setGuess(final GuessCombination guess)
+        {
+            // We ignore guess combination
+            super.setGuess(new GuessCombination("ROOJ"));
+        }
+    };
 
     /**
      * |-------------------|
