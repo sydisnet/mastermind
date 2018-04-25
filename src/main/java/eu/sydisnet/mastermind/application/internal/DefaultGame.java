@@ -174,7 +174,13 @@ public class DefaultGame implements Game
     @Override
     public int getLastFairPinCount()
     {
-        return 0;
+        // Respect Law Demeter
+        Proposal last = this.proposals.peekLast();
+        if (last == null)
+        {
+            return 0;
+        }
+        return last.getFairPinCount();
     }
 
     /**
@@ -183,7 +189,13 @@ public class DefaultGame implements Game
     @Override
     public int getLastMisplacedPinCount()
     {
-        return 0;
+        // Respect Law Demeter
+        Proposal last =this.proposals.peekLast();
+        if (last == null)
+        {
+            return 0;
+        }
+        return last.getMisplacedPinCount();
     }
 
     /**
@@ -192,7 +204,7 @@ public class DefaultGame implements Game
     @Override
     public int getNumberOfAttempts()
     {
-        return 0;
+        return this.proposals.size();
     }
 
     /**
